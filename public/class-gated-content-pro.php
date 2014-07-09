@@ -67,7 +67,7 @@ class Gated_Content_Pro {
 		add_action( 'wpmu_new_blog', array( $this, 'activate_new_site' ) );
 
 		// Set cookie when gravity forms are submitted
-		add_action('gform_entry_post_save', array($this, 'set_cookie_form_submission'), 10, 2);
+		add_filter('gform_pre_validation', array($this, 'set_cookie_form_submission'), 10, 2);
 
 		// Short code to hide gated content unless action is completed
 		add_shortcode( 'gated_content', array( $this, 'shortcode_gated_content' ) );
@@ -318,7 +318,7 @@ class Gated_Content_Pro {
 
 		// Display form with attributes passed on as arguments
 		gravity_form_enqueue_scripts($gf, false);
-		return gravity_form($gf, $atts['gf_display_title'], $atts['gf_display_description'], $atts['gf_display_inactive'], $atts['gf_field_values'], false, 1, false);
+		return gravity_form($gf, $atts['gf_display_title'], $atts['gf_display_description'], false, $atts['gf_field_values'], false, 1, false);
 	}
 
 	/**
@@ -326,8 +326,9 @@ class Gated_Content_Pro {
 	 * @param $entry
 	 * @param $form
 	 */
-	public function set_cookie_form_submission($entry, $form){
+	public function set_cookie_form_submission($form){
 		setcookie('gated_content_gf_' . $form['id'], true);
+		return $form;
 	}
 
 
