@@ -66,15 +66,11 @@ class Gated_Content_Pro {
 		// Activate plugin when new blog is added
 		add_action( 'wpmu_new_blog', array( $this, 'activate_new_site' ) );
 
-		// Load public-facing style sheet and JavaScript.
-		add_action( 'wp_enqueue_scripts', array( $this, 'enqueue_styles' ) );
-		add_action( 'wp_enqueue_scripts', array( $this, 'enqueue_scripts' ) );
+		// Set cookie when gravity forms are submitted
+		add_action('gform_entry_post_save', array($this, 'set_cookie_form_submission'), 10, 2);
 
-		/* Define custom functionality.
-		 * Refer To http://codex.wordpress.org/Plugin_API#Hooks.2C_Actions_and_Filters
-		 */
-		add_action( '@TODO', array( $this, 'action_method_name' ) );
-		add_filter( '@TODO', array( $this, 'filter_method_name' ) );
+		// Short code to hide gated content unless action is completed
+		add_shortcode( 'gated_content', array( $this, 'shortcode_gated_content' ) );
 
 	}
 
@@ -275,29 +271,64 @@ class Gated_Content_Pro {
 	}
 
 	/**
-	 * NOTE:  Actions are points in the execution of a page or process
-	 *        lifecycle that WordPress fires.
-	 *
-	 *        Actions:    http://codex.wordpress.org/Plugin_API#Actions
-	 *        Reference:  http://codex.wordpress.org/Plugin_API/Action_Reference
-	 *
-	 * @since    1.0.0
+	 * Method to render gated content shortcode
+	 * @param $atts Short code arguments
+	 * 		gf => gravity form id, required
+	 * 		gf_display_title => whether to display gravity form title or not, optional
+	 * 		gf_field_values => array of field values to preset
+	 * @param null $content content to hide until form is submitted
+	 * @return string HTML to output
 	 */
-	public function action_method_name() {
-		// @TODO: Define your action hook callback here
+	public function shortcode_gated_content($atts, $content=null){
+		// Set defaults
+		$atts = shortcode_atts( array(
+			'gf' => false,
+			'gf_display_title' => true,
+			'gf_display_description' => true,
+			'gf_field_values' => null
+		), $atts );
+
+		$gf = $atts['gf'];
+		$result = '';
+
+		// Ensure gravity form is provided
+		if($gf == false){
+			if(defined('WP_DEBUG') && WP_DEBUG){
+				$result .= 'GATED CONTENT ERROR: No gravity form specified<br/><br/>';
+			}
+			$result .= $content;
+			return $result;
+		}
+
+		// Check for cookie indicating gravity form was submitted and return content if so
+		$cookie = 'gated_content_gf_' . $gf;
+		if(isset($_COOKIE[$cookie]) && $_COOKIE[$cookie]){
+			return $content;
+		}
+
+		// Ensure gravity forms is installed
+		if(!function_exists('gravity_form')){
+			if(defined('WP_DEBUG') && WP_DEBUG){
+				$result .= 'GATED CONTENT ERROR: Gravity Forms is not installed<br/><br/>';
+			}
+			$result .= $content;
+			return $result;
+		}
+
+
+		// Display form with attributes passed on as arguments
+		gravity_form_enqueue_scripts($gf, false);
+		return gravity_form($gf, $atts['gf_display_title'], $atts['gf_display_description'], $atts['gf_display_inactive'], $atts['gf_field_values'], false, 1, false);
 	}
 
 	/**
-	 * NOTE:  Filters are points of execution in which WordPress modifies data
-	 *        before saving it or sending it to the browser.
-	 *
-	 *        Filters: http://codex.wordpress.org/Plugin_API#Filters
-	 *        Reference:  http://codex.wordpress.org/Plugin_API/Filter_Reference
-	 *
-	 * @since    1.0.0
+	 * Stores coookie when a gravity form is submitted
+	 * @param $entry
+	 * @param $form
 	 */
-	public function filter_method_name() {
-		// @TODO: Define your filter hook callback here
+	public function set_cookie_form_submission($entry, $form){
+		setcookie('gated_content_gf_' . $form['id'], true);
 	}
+
 
 }

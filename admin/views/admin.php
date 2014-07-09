@@ -17,6 +17,6 @@
 
 	<h2><?php echo esc_html( get_admin_page_title() ); ?></h2>
 
-	<!-- @TODO: Provide markup for your options page here. -->
+	Future addon settings for actions other than Gravity Forms will go here.  In the meantime, for custom web application development, visit <a href="http://trestian.com">www.Trestian.com</a>
 
 </div>

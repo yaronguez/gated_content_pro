@@ -82,7 +82,7 @@ add_action( 'plugins_loaded', array( 'Gated_Content_Pro', 'get_instance' ) );
  */
 if ( is_admin() && ( ! defined( 'DOING_AJAX' ) || ! DOING_AJAX ) ) {
 
-	require_once( plugin_dir_path( __FILE__ ) . 'admin/class-plugin-name-admin.php' );
+	require_once( plugin_dir_path( __FILE__ ) . 'admin/class-gated-content-pro-admin.php' );
 	add_action( 'plugins_loaded', array( 'Gated_Content_Pro_Admin', 'get_instance' ) );
 
 }
