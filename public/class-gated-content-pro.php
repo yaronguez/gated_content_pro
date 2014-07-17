@@ -327,7 +327,7 @@ class Gated_Content_Pro {
 	 * @param $form
 	 */
 	public function set_cookie_form_submission($form){
-		setcookie('gated_content_gf_' . $form['id'], true);
+		setcookie('gated_content_gf_' . $form['id'], true, null, '/');
 		return $form;
 	}
 
