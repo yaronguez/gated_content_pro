@@ -1,11 +1,11 @@
 # Gated Content Pro #
-*Contributors*: yaronguez  
-*Tags*: gated, content, gravity forms, gated content, content protection  
-*Requires at least*: 3.5.1  
-*Tested up to*: 3.9.1  
-*Stable tag*: 1.0.0  
-*License*: GPLv2 or later  
-*License URI*: http://www.gnu.org/licenses/gpl-2.0.html  
+**Contributors**: yaronguez  
+**Tags**: gated, content, gravity forms, gated content, content protection  
+**Requires at least**: 3.5.1  
+**Tested up to**: 3.9.1  
+**Stable tag**: 1.0.0  
+**License**: GPLv2 or later  
+**License URI**: http://www.gnu.org/licenses/gpl-2.0.html  
 
 Hides portion of content within a post or page until a user submits a Gravity Form. Can easily be linked to MailChimp or any other 3rd party Gravity Forms integrations requiring a user to subscribe to view content.
 
