@@ -71,5 +71,5 @@ Gravity Forms is weird.  For now, change the Confirmation Type to Redirect and s
 
 ## Changelog ##
 
-= 1.0 =
+### 1.0 ###
 * First version, woohoo!
