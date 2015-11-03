@@ -7,11 +7,11 @@ Stable tag: 1.0.0
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 
-Hides content within a post or page until a user submits a Gravity Form
+Hides portion of content within a post or page until a user submits a Gravity Form. Can easily be linked to MailChimp or any other 3rd party Gravity Forms integrations requiring a user to subscribe to view content.
 
 == Description ==
 
-This plugin uses a shortcode to hide content on a post or page until a user completes an action.  Currently the only action supported is submitting a Gravity Form but additional actions will be added in the future.
+This plugin uses a shortcode to hide a portion of content on a post or page until a user completes an action.  Currently the only action supported is submitting a Gravity Form but additional actions will be added in the future.  Gravity Forms integrates with everything under the sun so this could easily be used with MailChimp, Constant Contact, etc.
 
 A cookie is used to track the user.
 
